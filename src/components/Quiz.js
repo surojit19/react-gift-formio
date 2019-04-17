@@ -10,16 +10,17 @@ class Quiz extends Component {
       super(props);
 
       this.qset = [
-        `::Q1:: What's between orange and green in the spectrum? 
+        `::Q1:: What two people are entombed in Grant's tomb? { ~%-100%No one ~%50%Grant ~%50%Grant's wife ~%-100%Grant's father }`, 
+        `::Q2:: What's between orange and green in the spectrum? 
         { =yellow ~red ~blue }`,
 
-        `::Q2:: 1+1 \=2 {T}`,
+        `::Q3:: 1+1 \=2 {T}`,
 
-        `::Q3:: 4+6\=11 {F}`,
+        `::Q4:: 4+6\=11 {F}`,
 
-        `::Q4:: Two plus {=two =2} equals four.`,
+        `::Q5:: Two plus {=two =2} equals four.`,
 
-        `::Q5::Who is buried in Grant's tomb in New York City? {
+        `::Q6::Who is buried in Grant's tomb in New York City? {
         =Grant
         ~No one
         #Was true for 12 years, but Grant's remains were buried in the tomb in 1897
@@ -35,41 +36,40 @@ class Quiz extends Component {
       
 
       this.typesTemplate = {
-          'MC': [{
-                "key": "question",            
-                "content": "Question will come here",
-                "className":"quiz-question",
-                "type": "htmlelement",                        
-            }, {            
-            "input": false,
-            "tableView": false,
-            "inputType": "radio",
-            "label": "Options",   
-            "hideLabel":true,
-            "key": '',
-            "customClass":"quiz-answer",
-            "values": [],
-            "clearOnHide": true,            
-            "type": "selectboxes",
-            "optionsLabelPosition": "right",            
-        }],
-        'Short': [{
-            "label": "What is product of 2/3 and 3/2?",
-            "allowMultipleMasks": false,
-            "showWordCount": false,
-            "showCharCount": false,
-            "tableView": true,
-            "alwaysEnabled": false,
-            "type": "textfield",
-            "input": true,
-            "key": '',
-            "reorder": false,
-            "inputFormat": "plain",
-            "encrypted": false,
-            "properties": {},
-            "customConditional": "",
-            "logic": []
-          }]
+            'MC': [{
+                    "key": "question",            
+                    "content": "Question will come here",
+                    "className":"quiz-question",
+                    "type": "htmlelement",                        
+                }, {            
+                    "input": false,
+                    "tableView": false,            
+                    "label": "Options",   
+                    "hideLabel":true,
+                    "key": '',
+                    "customClass":"quiz-answer",
+                    "values": [],
+                    "clearOnHide": true,            
+                    "type": "radio",
+                    "optionsLabelPosition": "right",            
+                }],
+            'Short': [{
+                "label": "What is product of 2/3 and 3/2?",
+                "allowMultipleMasks": false,
+                "showWordCount": false,
+                "showCharCount": false,
+                "tableView": true,
+                "alwaysEnabled": false,
+                "type": "textfield",
+                "input": true,
+                "key": '',
+                "reorder": false,
+                "inputFormat": "plain",
+                "encrypted": false,
+                "properties": {},
+                "customConditional": "",
+                "logic": []
+            }]
       };
     
       this.state = {
@@ -124,6 +124,13 @@ class Quiz extends Component {
 
         if(qes.type=='MC'){
             tpl[0]['content'] = qes.stem.text;
+
+            if(qes.choices && qes.choices[0].weight===null){
+                tpl[1]['type']='radio'; //== Single Choice
+            }else{
+                tpl[1]['type']='selectboxes'; //== Multi Choice
+            }
+
             tpl[1]['values'] = _.map(qes.choices, c => {
                 return {
                     'value': c.text.text,
