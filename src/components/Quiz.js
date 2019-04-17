@@ -49,9 +49,10 @@ class Quiz extends Component {
                     "key": '',
                     "customClass":"quiz-answer",
                     "values": [],
-                    "clearOnHide": true,            
+                    //"clearOnHide": true,            
                     "type": "radio",
-                    "optionsLabelPosition": "right",            
+                    "optionsLabelPosition": "right",   
+                    "persistent":true         
                 }],
             'Short': [{
                 "label": "What is product of 2/3 and 3/2?",
@@ -68,6 +69,7 @@ class Quiz extends Component {
                 "encrypted": false,
                 "properties": {},
                 "customConditional": "",
+                "persistent":true,
                 "logic": []
             }]
       };
@@ -100,8 +102,7 @@ class Quiz extends Component {
                         "cancel": true,
                         "next": true
                     },
-                    "type": "panel",
-                    "key": "q" + qnum,
+                    "type": "panel",                    
                     "components": qes
                 });                
             }
@@ -117,6 +118,7 @@ class Quiz extends Component {
         try{
             qes = GiftParser.parse(q)[0];
         }catch(e){
+            console.log('Invalid Question=====> ',q, '<=======');
             return false;
         }
 
@@ -135,21 +137,33 @@ class Quiz extends Component {
                 return {
                     'value': c.text.text,
                     'label': c.text.text,
-                    'shortcut': ''
+                    'shortcut': '',
+                    'isCorrect': c.isCorrect,
+                    'weight': c.weight
                 };
             });
+
+            tpl[1]['key']=qes.title;
+
         }else if(qes.type=='Short'){
           tpl[0]['label']=qes.stem.text;
+          tpl[0]['key']=qes.title;
         }
+
+        
 
         return tpl;
     }
 
+    submitFormIO = (e)=>{
+        console.log(e.data );
+    }
+    
+
 
     render(){       
-        let formJSON = this.prepareQSet();
-        console.log(formJSON);
-        return <div className="quiz-box"><Form form={formJSON} onSubmit={(data) => console.log(data.data)} /></div>;
+        let formJSON = this.prepareQSet();        
+        return <div className="quiz-box"><Form form={formJSON} onSubmit={this.submitFormIO} /></div>;
     }
     
 }
