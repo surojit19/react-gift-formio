@@ -1,0 +1,46 @@
+p.quiz-question{
+  color: #333;
+  padding: 10px;
+  background-color:#efefef;
+}
+
+/*Form Wizard*/
+.quiz-box {
+  border-bottom: solid 1px #e0e0e0; 
+  margin: 10px; 
+  text-align:center;
+  
+}
+
+.quiz-box .formio-form > .row{
+  min-height: 400px;
+}
+
+.quiz-box ul.pagination li.page-item{   
+  padding: 10px;
+  list-style:none;
+  display:none;
+}
+
+.quiz-box ul.pagination li.page-item.active{
+  display:block;
+}
+
+
+.quiz-box .quiz-answer{    
+  max-width: 400px;
+  margin: 0px auto;
+  text-align:left;  
+}
+
+
+.quiz-box ul.list-inline{  
+  padding: 0px;
+}
+
+.quiz-box li.list-inline-item{
+  list-style:none;
+  display:inline;
+  padding: 0px 5px; 
+  height: 30px;
+}
